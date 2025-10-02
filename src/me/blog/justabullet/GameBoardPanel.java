@@ -72,14 +72,15 @@ public class GameBoardPanel extends JPanel implements ActionListener {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (!isStarted || curBlock.getShape() == Tetrominoes.NO_BLOCK) {
+				int keycode = e.getKeyCode();
+
+				// Allow 'P' key even when game is not started (for restart)
+				if (keycode == 'p' || keycode == 'P') {
+					pause();
 					return;
 				}
 
-				int keycode = e.getKeyCode();
-
-				if (keycode == 'p' || keycode == 'P') {
-					pause();
+				if (!isStarted || curBlock.getShape() == Tetrominoes.NO_BLOCK) {
 					return;
 				}
 
@@ -171,6 +172,7 @@ public class GameBoardPanel extends JPanel implements ActionListener {
 
 	public void pause() {
 		if (!isStarted) {
+			start();  // Restart the game if it has ended
 			return;
 		}
 
